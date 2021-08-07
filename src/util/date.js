@@ -14,7 +14,8 @@ function getLastDayOfWeek(date) {
 }
 
 function getLastFourteenDays(date) {
-  
+  const d = new Date(date)
+  return new Date(d.setDate(d.getDate() - 13))
 }
 
 function getFirstDayOfMonth(date) {
@@ -37,4 +38,4 @@ function getWeekNumber(date) {
   return 1 + Math.ceil((firstThursday - tdt) / 604800000)
 }
 
-export { getFirstDayOfWeek, getLastDayOfWeek, getFirstDayOfMonth, getLastDayOfMonth, getWeekNumber }
+export { getFirstDayOfWeek, getLastDayOfWeek, getFirstDayOfMonth, getLastDayOfMonth, getWeekNumber, getLastFourteenDays }

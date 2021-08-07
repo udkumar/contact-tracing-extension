@@ -2,8 +2,8 @@
   <b-navbar toggleable="lg" type="light" variant="light">
     <b-container>
       <b-navbar-brand href="/index.html">
-        <img src="icons/icon.svg" alt="Timline exporter" width="25px" />
-        USF: Survey Location History <b-badge variant="primary">Dev</b-badge>
+        <img src="icons/plane.gif" alt="Timline exporter" width="100px" />
+        USF: Survey Location History <b-badge variant="primary">Dev 1.0.0</b-badge>
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>

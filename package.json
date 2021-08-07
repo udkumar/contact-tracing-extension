@@ -2,7 +2,7 @@
   "name": "Survey-Extension",
   "version": "1.0.0",
   "description": "Survey Location history",
-  "author": "Rein Appeldoorn <reinzor@gmail.com>",
+  "author": "Uday Kumar <udkumar@hotmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=10"

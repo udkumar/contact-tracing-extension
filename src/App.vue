@@ -4,17 +4,18 @@
     <navbar />
     <b-container>
       <data-selection @data-updated="dataUpdated" />
-      <b-tabs>
-        <b-tab title="Table" active>
-          <data-table :data="data" />
-        </b-tab>
-        <b-tab title="Timesheet">
-          <timesheet-table :data="data" />
-        </b-tab>
-        <b-tab title="Mileage">
-          <mileage-table :data="data" />
-        </b-tab>
-      </b-tabs>
+      <b-row >
+        <b-col cols="8">
+          <b-tabs>
+            <b-tab title="Timesheet" active>
+              <timesheet-table :data="data" />
+            </b-tab>
+          </b-tabs>
+        </b-col>
+        <b-col cols="4">
+        TODO: User Form
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>

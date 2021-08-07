@@ -35,15 +35,17 @@ function fetchGoogleTimelineData(from, to) {
               const timeBegin = moment(feature.properties.timespan.begin)
               const timeEnd = moment(feature.properties.timespan.end)
               const duration = moment.duration(timeEnd.diff(timeBegin)).asMilliseconds()
-              data.items.push({
-                name: feature.properties.name,
-                address: feature.properties.address,
-                timeBegin: feature.properties.timespan.begin,
-                timeEnd: feature.properties.timespan.end,
-                duration: duration,
-                category: feature.properties.Category,
-                distance: feature.properties.Distance
-              })
+              if (feature.properties.name != "Motorcycling" && feature.properties.name != "Driving" && feature.properties.name != "Moving" && feature.properties.name != "Walking"){
+                data.items.push({
+                  name: feature.properties.name,
+                  address: feature.properties.address,
+                  timeBegin: feature.properties.timespan.begin,
+                  timeEnd: feature.properties.timespan.end,
+                  duration: duration,
+                  category: feature.properties.Category,
+                  distance: feature.properties.Distance
+                })
+              }
             })
           })
 

@@ -1,6 +1,6 @@
 {
-  "name": "Timeline exporter",
-  "description": "Google maps timeline exporter",
+  "name": "Location History Survey | USF 1.0.0",
+  "description": "The goal of the project is to create a survey that could be administered on a tablet at hospitals to patients who had covid-19",
   "version": null,
   "manifest_version": 2,
   "icons": {
@@ -8,7 +8,7 @@
     "128": "icons/icon_128.png"
   },
   "browser_action": {
-    "default_title": "Timeline exporter"
+    "default_title": "Location History Survey"
   },
   "background": {
     "scripts": [

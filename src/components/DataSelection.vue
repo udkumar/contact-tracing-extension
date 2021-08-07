@@ -7,9 +7,7 @@
     </b-alert>
     <b-form inline>
       <b-form-group>
-        <b-form-radio-group v-model="type" @input="fetchData()">
-          <b-form-radio v-for="Type in Types" :value="Type" :key="Type">{{ Type }}</b-form-radio>
-        </b-form-radio-group>
+        
       </b-form-group>
       <label class="sr-only" for="from-date">From</label>
       <b-form-datepicker
@@ -45,7 +43,7 @@
 
 <script>
 import globalOptions from '../services/global_options'
-import { getFirstDayOfWeek, getLastDayOfWeek, getFirstDayOfMonth, getLastDayOfMonth } from '../util/date'
+import { getFirstDayOfWeek, getLastDayOfWeek, getFirstDayOfMonth, getLastDayOfMonth, getLastFourteenDays } from '../util/date'
 
 const Types = {
   DAY: 'Day',
@@ -58,7 +56,7 @@ export default {
   data() {
     return {
       globalOptions,
-      type: Types.DAY,
+      type: Types.RANGE,
       Types: Types,
       from: new Date(),
       to: new Date(),
@@ -76,7 +74,7 @@ export default {
         case Types.MONTH:
           return getFirstDayOfMonth(this.from)
         default:
-          return new Date(this.from)
+          return getLastFourteenDays(this.from)
       }
     },
     toDate() {
