@@ -4,7 +4,7 @@
     <navbar />
     <b-container>
       <data-selection @data-updated="dataUpdated" />
-      <b-row >
+      <b-row>
         <b-col cols="8">
           <b-tabs>
             <b-tab title="Timesheet" active>
@@ -13,7 +13,8 @@
           </b-tabs>
         </b-col>
         <b-col cols="4">
-        TODO: User Form
+          TODO: User Form
+          <user-input></user-input>
         </b-col>
       </b-row>
     </b-container>
@@ -27,6 +28,7 @@ import DataTable from './components/DataTable'
 import GlobalOptionsModal from './components/GlobalOptionsModal'
 import TimesheetTable from './components/TimesheetTable'
 import MileageTable from './components/MileageTable'
+import UserInput from './components/UserInput'
 
 export default {
   components: {
@@ -35,7 +37,8 @@ export default {
     DataTable,
     GlobalOptionsModal,
     TimesheetTable,
-    MileageTable
+    MileageTable,
+    UserInput
   },
   data() {
     return {
