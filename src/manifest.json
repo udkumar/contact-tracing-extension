@@ -13,6 +13,6 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "permissions": ["http://*.google.com/*", "https://*.google.com/*"]
-  // "content_security_policy": "script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net; object-src 'self'"
+  "permissions": ["http://*.google.com/*", "https://*.google.com/*"],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://maps.googleapis.com; object-src 'self'"
 }

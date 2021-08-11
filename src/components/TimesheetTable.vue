@@ -35,6 +35,8 @@ export default {
           category: i.category
         }
       })
+      // console.log(items)
+      localStorage.setItem('google-tdata', JSON.stringify(items))
       return { name: `timesheet_${this.data.name}`, items: items }
     }
   },

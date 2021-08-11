@@ -6,16 +6,15 @@
       keeps poppin' up, try limiting the number of requests by reducing the date span.
     </b-alert>
     <b-form inline>
-      <b-form-group>
-        
-      </b-form-group>
+      <b-form-group> </b-form-group>
       <label class="sr-only" for="from-date">From</label>
+      hellopl
       <b-form-datepicker
         id="from-date"
         class="mb-2 mr-sm-2 mb-sm-0"
         @input="dateChanged()"
         :value-as-date="true"
-        v-model="from"
+        v-model="fromPast14"
         :start-weekday="1"
         :hide-header="true"
       >
@@ -43,7 +42,13 @@
 
 <script>
 import globalOptions from '../services/global_options'
-import { getFirstDayOfWeek, getLastDayOfWeek, getFirstDayOfMonth, getLastDayOfMonth, getLastFourteenDays } from '../util/date'
+import {
+  getFirstDayOfWeek,
+  getLastDayOfWeek,
+  getFirstDayOfMonth,
+  getLastDayOfMonth,
+  getLastFourteenDays
+} from '../util/date'
 
 const Types = {
   DAY: 'Day',
@@ -58,6 +63,7 @@ export default {
       globalOptions,
       type: Types.RANGE,
       Types: Types,
+      fromPast14: null,
       from: new Date(),
       to: new Date(),
       error429: false,
@@ -91,6 +97,10 @@ export default {
     }
   },
   created() {
+    var currentDate = new Date()
+    var pastDate = new Date(currentDate)
+    pastDate.setDate(pastDate.getDate() - 13)
+    this.fromPast14 = pastDate
     if (globalOptions.autoFetch) {
       this.fetchData()
     }
@@ -128,6 +138,7 @@ export default {
           e.duration = parseInt(e.duration)
           return e
         })
+
         this.$emit('data-updated', data)
         this.fetching = false
       })
