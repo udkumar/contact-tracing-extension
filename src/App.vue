@@ -3,17 +3,16 @@
     <global-options-modal />
     <navbar />
     <b-container>
-      <data-selection @data-updated="dataUpdated" />
+      <data-selection @data-updated="dataUpdated" style="margin-top: 10px !important" />
       <b-row>
-        <b-col cols="8">
+        <b-col cols="0" style="display: none !important">
           <b-tabs>
             <b-tab title="Timesheet" active>
               <timesheet-table :data="data" />
             </b-tab>
           </b-tabs>
         </b-col>
-        <b-col cols="4">
-          TODO: User Form
+        <b-col cols="12">
           <user-input></user-input>
         </b-col>
       </b-row>

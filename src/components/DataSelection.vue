@@ -8,8 +8,8 @@
     <b-form inline>
       <b-form-group> </b-form-group>
       <label class="sr-only" for="from-date">From</label>
-      hellopl
       <b-form-datepicker
+        style="pointer-events: none !important"
         id="from-date"
         class="mb-2 mr-sm-2 mb-sm-0"
         @input="dateChanged()"
@@ -21,6 +21,7 @@
       </b-form-datepicker>
       <label class="sr-only" for="to-date">To</label>
       <b-form-datepicker
+        style="pointer-events: none !important"
         v-if="type === Types.RANGE"
         id="to-date"
         class="mb-2 mr-sm-2 mb-sm-0"
