@@ -25,12 +25,15 @@
           <button @click="addInput" class="addButton" :disabled="btnDisabled">Add</button>
           <button @click="ClearLocal" class="addButton">Clear local</button>
           <button @click="showResults" class="showResults">Show results</button>
-          <button @click="matchResults" class="showResults">Match results</button>
+          <button @click="matchResults" class="showResults">Validate Contact Tracing</button>
         </div>
         <h4 v-if="userNameSet" style="text-transform: capitalize !important;">User Name: {{ setUserName }}</h4>
         <div class="userinput-section1-matchstats" v-if="resultsMatched || pTotalIdentified">
           <p v-if="resultsMatched">Correctly identified locations out of total identified : {{ matchResult }}%</p>
           <p v-if="pTotalIdentified">Identified locations out of total available data : {{ pTotalIdentified }}%</p>
+          <p v-if="userLocationValidatedByGoogle"> Number of locations that both user and Google remember : {{userLocationValidatedByGoogle}} </p>
+          <p v-if="locationFoundByGoogle">Number of locations that Google remembers but not the user : {{locationFoundByGoogle}}</p>
+          <p v-if="locationGoogleNotFound">Number of locations that user remembers but not Google : {{locationGoogleNotFound}}</p>
         </div>
         <h3 v-if="results.length == 0" style="margin-top: 25px !important">No Data</h3>
         <table v-else style="width:100%" id="user-results-table">
@@ -93,6 +96,9 @@ export default {
       compareDataGoogle: [],
       showGoogleData: [],
       pTotalIdentified: 0,
+      locationGoogleNotFound: 0,
+      locationFoundByGoogle: 0,
+      userLocationValidatedByGoogle: 0,
       resultsMatched: false,
       userSetName: null,
       userNameSet: false
@@ -104,7 +110,10 @@ export default {
         return '0.00'
       }
       let totalLength = this.results.length
+      console.log(this.results)
       let matched = this.results.filter(result => result.matched == 'Yes')
+      let unmatched = this.results.filter(result => result.matched == 'No')
+      this.locationGoogleNotFound = unmatched.length
       return ((matched.length * 100) / totalLength).toFixed(2)
     },
     btnDisabled() {
@@ -133,6 +142,7 @@ export default {
       console.log(this.googleTimelineData)
       if (this.googleTimelineData.length > 0) {
         // this.pTotalIdentified = ((this.results.length * 100) / this.googleTimelineData.length).toFixed(2)
+        //this.locationFoundByGoogle = this.googleTimelineData.length
         this.showGoogleData = this.googleTimelineData
         // this.showGData()
         for (let i of this.googleTimelineData) {
@@ -179,9 +189,11 @@ export default {
 
       if (this.googleTimelineData.length > 0 && this.results.length > 0) {
         let initMatch = this.results.filter(result => result.matched == 'Yes')
+        this.userLocationValidatedByGoogle = initMatch.length
         this.pTotalIdentified = ((initMatch.length * 100) / this.googleTimelineData.length).toFixed(2)
       } else {
         this.pTotalIdentified = 0
+        this.userLocationValidatedByGoogle = 0
       }
 
       this.showGData()
@@ -216,6 +228,7 @@ export default {
       }
 
       this.showGoogleData = initGData
+      this.locationFoundByGoogle = this.showGoogleData.length
 
       // for (let i in this.results) {
       //   // var matched = 'Nil'
