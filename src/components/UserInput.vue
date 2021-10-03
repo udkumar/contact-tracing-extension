@@ -41,7 +41,7 @@
             Number of locations that user remembers but not Google : {{ locationGoogleNotFound }}
           </p>
           <p>
-            Number of locations close to 150 meter:
+            Number of locations by Google & 150 meters closer to user's locations:
             {{ closeLocationsResultLoading ? 'Loading...' : closeLocationsResult }}
           </p>
         </div>
