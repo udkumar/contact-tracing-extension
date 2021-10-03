@@ -31,9 +31,19 @@
         <div class="userinput-section1-matchstats" v-if="resultsMatched || pTotalIdentified">
           <p v-if="resultsMatched">Correctly identified locations out of total identified : {{ matchResult }}%</p>
           <p v-if="pTotalIdentified">Identified locations out of total available data : {{ pTotalIdentified }}%</p>
-          <p v-if="userLocationValidatedByGoogle"> Number of locations that both user and Google remember : {{userLocationValidatedByGoogle}} </p>
-          <p v-if="locationFoundByGoogle">Number of locations that Google remembers but not the user : {{locationFoundByGoogle}}</p>
-          <p v-if="locationGoogleNotFound">Number of locations that user remembers but not Google : {{locationGoogleNotFound}}</p>
+          <p v-if="userLocationValidatedByGoogle">
+            Number of locations that both user and Google remember : {{ userLocationValidatedByGoogle }}
+          </p>
+          <p v-if="locationFoundByGoogle">
+            Number of locations that Google remembers but not the user : {{ locationFoundByGoogle }}
+          </p>
+          <p v-if="locationGoogleNotFound">
+            Number of locations that user remembers but not Google : {{ locationGoogleNotFound }}
+          </p>
+          <p>
+            Number of locations close to 150 meter:
+            {{ closeLocationsResultLoading ? 'Loading...' : closeLocationsResult }}
+          </p>
         </div>
         <h3 v-if="results.length == 0" style="margin-top: 25px !important">No Data</h3>
         <table v-else style="width:100%" id="user-results-table">
@@ -80,6 +90,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
@@ -101,7 +113,10 @@ export default {
       userLocationValidatedByGoogle: 0,
       resultsMatched: false,
       userSetName: null,
-      userNameSet: false
+      userNameSet: false,
+      mapsApiReturn: null,
+      closeLocationsResultLoading: true,
+      closeLocationsResult: null
     }
   },
   computed: {
@@ -130,6 +145,54 @@ export default {
     }
   },
   methods: {
+    async checkCloseLocations() {
+      this.closeLocationsResultLoading = true
+      this.closeLocationsResult = null
+      var googleAddress = []
+      if (JSON.parse(localStorage.getItem('google-tdata'))) {
+        googleAddress = JSON.parse(localStorage.getItem('google-tdata'))
+      }
+
+      var finalResult = 0
+      for (let i = 0; i < this.results.length; i++) {
+        for (let j = 0; j < googleAddress.length; j++) {
+          if (
+            this.results[i]['date'] == googleAddress[j]['timeBegin'].slice(0, 10) &&
+            this.results[i]['matched'] == 'No' &&
+            this.results[i]['address'] &&
+            googleAddress[j]['address']
+          ) {
+            let distanceResult = await this.mapsApi(this.results[i]['address'], googleAddress[j]['address'])
+            if (distanceResult[0]['elements'][0]['distance'].value < 150) {
+              finalResult += 1
+              break
+            }
+          }
+        }
+      }
+      this.closeLocationsResultLoading = false
+      this.closeLocationsResult = finalResult
+    },
+    async mapsApi(i, j) {
+      var origin = i
+      var destination = j
+
+      var service = new google.maps.DistanceMatrixService()
+      await service
+        .getDistanceMatrix({
+          origins: [origin],
+          destinations: [destination],
+          travelMode: 'WALKING'
+        })
+        .then(response => {
+          this.mapsApiReturn = response.rows
+        })
+        .catch(error => {
+          console.log('Error')
+        })
+
+      return this.mapsApiReturn
+    },
     setUserName() {
       localStorage.setItem('user-name', this.userName)
       this.userNameSet = true
@@ -229,6 +292,7 @@ export default {
 
       this.showGoogleData = initGData
       this.locationFoundByGoogle = this.showGoogleData.length
+      this.checkCloseLocations()
 
       // for (let i in this.results) {
       //   // var matched = 'Nil'
