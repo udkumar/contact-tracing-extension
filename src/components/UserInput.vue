@@ -14,6 +14,8 @@
           </button>
           <input type="date" v-model="userDate" id="userEnteredDate" />
           <input type="text" name="userEnteredLocation" id="autocomplete" ref="origin" />
+          <span>Enter close to distance</span>
+          <input type="text" v-model="closeToDistance" />
         </div>
         <p
           :style="[showAddedLine ? { color: 'green' } : { color: 'white' }]"
@@ -41,7 +43,7 @@
             Number of locations that user remembers but not Google : {{ locationGoogleNotFound }}
           </p>
           <p>
-            Number of locations by Google & 150 meters closer to user's locations:
+            Number of locations by Google & {{ closeToDistance }} meters closer to user's locations:
             {{ closeLocationsResultLoading ? 'Loading...' : closeLocationsResult }}
           </p>
         </div>
@@ -116,7 +118,8 @@ export default {
       userNameSet: false,
       mapsApiReturn: null,
       closeLocationsResultLoading: true,
-      closeLocationsResult: null
+      closeLocationsResult: null,
+      closeToDistance: 150
     }
   },
   computed: {
@@ -163,7 +166,7 @@ export default {
             googleAddress[j]['address']
           ) {
             let distanceResult = await this.mapsApi(this.results[i]['address'], googleAddress[j]['address'])
-            if (distanceResult[0]['elements'][0]['distance'].value < 150) {
+            if (distanceResult[0]['elements'][0]['distance'].value < this.closeToDistance) {
               finalResult += 1
               break
             }
